@@ -5,7 +5,7 @@ CXX_LDFLAGS 	=
 LIBRARIES 		= $(CXX_SYSLIBS)
 
 MODULE_NAME		= SslAdmin
-OBJECTS			= $(MODULE_NAME).o
+OBJECTS			= SslServer.o Session.o
 OUTPUT			= $(MODULE_NAME).so
 
 default: $(OUTPUT)
@@ -14,7 +14,7 @@ Release: all
 all: default
 
 
-$(OUTPUT): $(SRC_DIR)$(OBJECTS)
+$(OUTPUT): $(SRC_DIR)SslServer.o $(SRC_DIR)Session.o
 	$(CXX_LINK) -o $(LIB_DIR)$@ $(OBJECTS) $(LIBRARIES)
 
 update:
