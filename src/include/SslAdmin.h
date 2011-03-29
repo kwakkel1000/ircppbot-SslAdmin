@@ -4,6 +4,7 @@
 #include <interfaces/AdminInterface.h>
 #include <core/Parse.h>
 #include "Server.h"
+#include <boost/thread/thread.hpp>
 
 class SslAdmin : public AdminInterface
 {
@@ -12,6 +13,9 @@ public:
     void Run();
 
 private:
+	void ParseData();
+    boost::shared_ptr<boost::thread> parse_thread;
+
 	Parse* mpParse;
 	int mPort;
 

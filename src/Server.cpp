@@ -15,7 +15,7 @@ void Server::handle_accept(Session* new_session, const boost::system::error_code
 {
 	if (!error)
 	{
-		new_session->startnonssl();
+		new_session->start();
 		new_session = new Session(io_service_);
 		acceptor_.async_accept(new_session->non_ssl_socket(),
 								boost::bind(&Server::handle_accept, this, new_session, boost::asio::placeholders::error));
