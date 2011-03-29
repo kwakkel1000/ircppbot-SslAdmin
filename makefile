@@ -1,7 +1,7 @@
 include ../MODULE_CONFIG
 
-CXX_CFLAGS 		= -ldl
-CXX_LDFLAGS 	= -lboost_system
+CXX_CFLAGS 		=
+CXX_LDFLAGS 	=
 LIBRARIES 		= $(CXX_SYSLIBS)
 
 MODULE_NAME		= SslAdmin
