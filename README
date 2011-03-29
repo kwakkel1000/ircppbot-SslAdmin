@@ -1,3 +1,8 @@
 building:
+mkdir [topdir]conf/Admin/
+cp conf.ini.example [topdir]conf/Admin/conf.ini
+
+add conf/Admin/conf.ini to [topdir]conf/conf.ini  under the [config] section
+
 make clean
 make all
