@@ -5,7 +5,6 @@
 
 Server::Server(boost::asio::io_service& io_service, unsigned short port)
 	: io_service_(io_service), acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
-	boost::asio::ip::tcp::
 {
 	Session* new_session = new Session(io_service_);
 	acceptor_.async_accept(new_session->non_ssl_socket(),
