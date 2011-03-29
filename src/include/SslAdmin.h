@@ -1,22 +1,22 @@
 #ifndef SslAdmin_h
 #define SslAdmin_h
 
-#include <interfaces/AdminInterface.h>
-#include <core/Parse.h>
+#include <core/Bot.h>
 #include "Server.h"
 #include <boost/thread/thread.hpp>
+#include <interfaces/AdminInterface.h>
 
 class SslAdmin : public AdminInterface
 {
 public:
-    void Init(Parse *parse, int port);
+    void Init(Bot *bot, int port);
     void Run();
 
 private:
 	void ParseData();
     boost::shared_ptr<boost::thread> parse_thread;
 
-	Parse* mpParse;
+	Bot* mpBot;
 	int mPort;
 
 	Server* mpServer;

@@ -14,10 +14,10 @@ extern "C" void destroy(AdminInterface* x)
     delete x;
 }
 
-void SslAdmin::Init(Parse *parse, int port)
+void SslAdmin::Init(Bot *bot, int port)
 {
     std::cout << "SslAdmin::Init" << std::endl;
-    mpParse=parse;
+    mpBot=bot;
     mPort=port;
     AdminData::Instance().init();
     assert(!parse_thread);
@@ -38,25 +38,26 @@ void SslAdmin::ParseData()
     	std::string recvd = AdminData::Instance().GetRecvQueue();
     	std::cout << "void SslAdmin::ParseData(): " << recvd << std::endl;
 
-		size_t triggerpos = std::string::npos;
-		triggerpos = recvd.find("load");
-		if (triggerpos != std::string::npos)
+		std::vector< std::string > split_data;
+		std::vector< std::string > args;
+		std::string command;
+		boost::split( split_data, recvd, boost::is_any_of(" "), boost::token_compress_on );
+		if (split_data.size() >= 1)
 		{
-			mpParse->LoadModule("Example");
+			std::cout << "command ";
+			command = split_data[0];
+			std::cout << command << std::endl;
 		}
-		triggerpos = recvd.find("unload");
-		if (triggerpos != std::string::npos)
+		if (split_data.size() >= 2)
 		{
-			mpParse->UnLoadModule("Example");
-		}
-		triggerpos = recvd.find("listmodules");
-		if (triggerpos != std::string::npos)
-		{
-			for (unsigned int i = 0; i < mpParse->modulelist.size(); i++)
+			std::cout << "args";
+			for (unsigned int i = 1; i < split_data.size(); i++)
 			{
-				std::string modname = mpParse->modulelist[i];
-				std::cout << modname << std::endl;
+				args.push_back(split_data[i]);
+				std::cout << " [" << split_data[i] << "]";
 			}
+			std::cout << std::endl;
 		}
+		mpBot->AdminCommands(command, args);
     }
 }

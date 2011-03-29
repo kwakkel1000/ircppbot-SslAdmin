@@ -2,6 +2,7 @@
 #include "include/AdminData.h"
 #include <cstdlib>
 #include <iostream>
+#include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 //#include <boost/asio/ssl.hpp>
@@ -28,6 +29,7 @@ boost::asio::ip::tcp::socket& Session::non_ssl_socket()
 
 void Session::start()
 {
+	memset( data_, '\0', max_length );
 	if (ssl)
 	{
 		/*ssl_socket_.async_handshake(boost::asio::ssl::stream_base::server,
@@ -58,7 +60,8 @@ void Session::handle_read(const boost::system::error_code& error, size_t bytes_t
 	if (!error)
 	{
 		std::string buf_data = std::string(data_);
-		std::cout << buf_data << std::endl;
+		boost::trim(buf_data);
+		std::cout << "void Session::handle_read(const boost::system::error_code& error, size_t bytes_transferred): " << buf_data << std::endl;
 		AdminData::Instance().AddRecvQueue(buf_data);
 		if(ssl)
 		{
@@ -81,6 +84,7 @@ void Session::handle_write(const boost::system::error_code& error)
 {
 	if (!error)
 	{
+		memset( data_, '\0', max_length );
 		if (ssl)
 		{
 			/*ssl_socket_.async_read_some(boost::asio::buffer(data_, max_length),
