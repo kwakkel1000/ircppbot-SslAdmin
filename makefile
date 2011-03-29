@@ -1,11 +1,11 @@
 include ../MODULE_CONFIG
 
 CXX_CFLAGS 		= -ldl
-CXX_LDFLAGS 	=
+CXX_LDFLAGS 	= -lboost_system
 LIBRARIES 		= $(CXX_SYSLIBS)
 
 MODULE_NAME		= SslAdmin
-OBJECTS			= SslServer.o Session.o
+OBJECTS			= SslAdmin.o Server.o Session.o
 OUTPUT			= $(MODULE_NAME).so
 
 default: $(OUTPUT)
@@ -14,7 +14,7 @@ Release: all
 all: default
 
 
-$(OUTPUT): $(SRC_DIR)SslServer.o $(SRC_DIR)Session.o
+$(OUTPUT): $(SRC_DIR)SslAdmin.o $(SRC_DIR)Server.o $(SRC_DIR)Session.o
 	$(CXX_LINK) -o $(LIB_DIR)$@ $(OBJECTS) $(LIBRARIES)
 
 update:
