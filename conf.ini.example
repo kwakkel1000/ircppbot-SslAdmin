@@ -1,4 +1,5 @@
 [admin]
+admin_enable=true
 admin=SslAdmin
 admin_port=port
 
