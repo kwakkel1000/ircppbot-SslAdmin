@@ -1,9 +1,11 @@
-#ifndef AdminData_H
-#define AdminData_H
+#ifndef AdminSendData_H
+#define AdminSendData_H
 
 #include <queue>
 #include <vector>
 #include <string>
+
+#include "Session.h"
 
 #include <boost/bind.hpp>
 #include <boost/thread/condition.hpp>
@@ -11,42 +13,44 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
 
-class AdminData
+class Session;
+class AdminSendData
 {
 public:
-	static AdminData& Instance()
+	static AdminSendData& Instance()
 	{
-		static AdminData obj;
+		static AdminSendData obj;
 		return obj;
 	}
     void init();
     void stop();
+    void AddSession(Session *s);
+    void DelSession(Session *s);
 
     //queue functions
     std::string GetSendQueue();
-    std::string GetRecvQueue();
-    void AddRecvQueue(std::string data);
     void AddSendQueue(std::string data);
 
 private:
-    AdminData();
-    ~AdminData();
+    AdminSendData();
+    ~AdminSendData();
 
     //vars
-    bool recv;
     bool send;
 
+    boost::shared_ptr<boost::thread> send_thread;
     boost::condition SendAvailable;
-    boost::condition RecvAvailable;
 
     boost::mutex SendMutex;
-    boost::mutex RecvMutex;
 
     //admin queues
     std::queue< std::string > SendQueue;
-    std::queue< std::string > RecvQueue;
+
+    std::vector< Session * > SessionVector;
+
+    void SessionSend();
 
 };
 
-#endif // AdminData_h
+#endif // AdminSendData_h
 

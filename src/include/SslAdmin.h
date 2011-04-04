@@ -11,6 +11,7 @@ class SslAdmin : public AdminInterface
 public:
     void Init(Bot *bot, int port);
     void Run();
+    void AddSendQueue(std::string mSendData);
 
 private:
 	void ParseData();

@@ -1,5 +1,6 @@
 #include "include/SslAdmin.h"
-#include "include/AdminData.h"
+#include "include/AdminRecvData.h"
+#include "include/AdminSendData.h"
 
 #include <boost/algorithm/string.hpp>
 #include <iostream>
@@ -19,7 +20,8 @@ void SslAdmin::Init(Bot *bot, int port)
     std::cout << "SslAdmin::Init" << std::endl;
     mpBot=bot;
     mPort=port;
-    AdminData::Instance().init();
+    AdminRecvData::Instance().init();
+    AdminSendData::Instance().init();
     assert(!parse_thread);
     parse_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&SslAdmin::ParseData, this)));
 }
@@ -35,7 +37,7 @@ void SslAdmin::ParseData()
 	std::cout << "void SslAdmin::ParseData()" << std::endl;
     while(1)
     {
-    	std::string recvd = AdminData::Instance().GetRecvQueue();
+    	std::string recvd = AdminRecvData::Instance().GetRecvQueue();
     	std::cout << "void SslAdmin::ParseData(): " << recvd << std::endl;
 
 		std::vector< std::string > split_data;
@@ -60,4 +62,11 @@ void SslAdmin::ParseData()
 		}
 		mpBot->AdminCommands(command, args);
     }
+}
+
+
+void SslAdmin::AddSendQueue(std::string mSendData)
+{
+	std::cout << mSendData << std::endl;
+	AdminSendData::Instance().AddSendQueue(mSendData);
 }
