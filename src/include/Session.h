@@ -25,12 +25,11 @@ public:
 	void start();
 	void Write(std::string);
 
+private:
+
 	//void handle_handshake(const boost::system::error_code& error);
 
 	void handle_read(const boost::system::error_code& error, size_t bytes_transferred);
-	void handle_write(const boost::system::error_code& error);
-
-private:
 
 	//ssl_socket ssl_socket_;
 	boost::asio::ip::tcp::socket non_ssl_socket_;

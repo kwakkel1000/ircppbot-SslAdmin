@@ -56,10 +56,11 @@ void Session::start()
 	{
 		AdminSendData::Instance().AddSession(this);
 	}
+	read();
 	std::cout << "start read thread" << std::endl;
-	//start read thread
+	/*//start read thread
     assert(!read_thread);
-    read_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Session::read, this)));
+    read_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Session::read, this)));*/
 }
 
 #ifdef SSL
@@ -234,37 +235,6 @@ void Session::handle_read(const boost::system::error_code& error, size_t bytes_t
 		std::cerr << "Exception in thread: " << e.what() << "\n";
 	}
 }
-
-void Session::handle_write(const boost::system::error_code& error)
-{
-	if (!error)
-	{
-		/*char write_data_[max_length];
-		memset( write_data_, '\0', max_length );
-		std::string send_string = AdminData::Instance().GetSendQueue();
-		send_string = send_string + "\r\n";
-		strcpy(write_data_, send_string.c_str());
-		size_t request_length = std::strlen(write_data_);
-		if (ssl)
-		{
-#ifdef SSL
-			boost::asio::async_write(ssl_socket_, boost::asio::buffer(write_data_, request_length),
-										boost::bind(&Session::handle_write, this, boost::asio::placeholders::error));
-#endif
-		}
-		else
-		{
-			boost::asio::async_write(non_ssl_socket_, boost::asio::buffer(write_data_, request_length),
-										boost::bind(&Session::handle_write, this, boost::asio::placeholders::error));
-		}*/
-	}
-	else
-	{
-		delete this;
-	}
-}
-
-
 
 void Session::AuthStart()
 {
